@@ -100,7 +100,7 @@ export default function IndexPage() {
           <div className="flex flex-col items-center gap-4">
           <div className="flex justify-center gap-6">
             <div className="image-button">
-              <button onClick={handleUploadClick} className="circular-button" style={{ "--button-size": "16rem" } as React.CSSProperties}>
+              <button onClick={handleUploadClick} className="circular-button" style={{ "--button-size": "16rem", "--translate-y": "15px", "--width": "130%", "--height": "150%" } as React.CSSProperties}>
                 <img src={groupPic} alt="Upload Image" />
               </button>
               <br></br>
@@ -108,8 +108,7 @@ export default function IndexPage() {
             </div>
 
             <div className="image-button">
-              
-              <button onClick={handleUploadPictureOfPersonClick} className="circular-button" style={{ "--button-size": "12rem" } as React.CSSProperties}>
+              <button onClick={handleUploadPictureOfPersonClick} className="circular-button" style={{ "--button-size": "12rem", "--translate-x": "-2px", "--width": "300%", "--height": "220%" } as React.CSSProperties}>
                 <img src={indPic} alt="Upload Ind Image" className="w-60 h-70 object-contain cursor-pointer hover:opacity-80" />
               </button>
               <p className="image-text">Upload person to remove</p>
