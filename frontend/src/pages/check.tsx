@@ -34,7 +34,7 @@ export default function CheckPage() {
   // Generic function to call the /check/processing endpoint.
   async function handleCheck(actionType: string) {
     try {
-      const response = await fetch("http://localhost:5123/modify", {
+      const response = await fetch("http://localhost:5123/check", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -43,9 +43,10 @@ export default function CheckPage() {
       });
       if (!response.ok) {
         throw new Error("Failed to blur/replace");
+      } if (response.ok) {
+        // Navigate to the "results" page after a successful call.
+        navigate("/results");
       }
-      // Navigate to the "results" page after a successful call.
-      navigate("/results");
     } catch (err) {
       console.error(err);
       setError("Error blurring/replacing");
