@@ -1,2 +1,11 @@
 # ichack-2025
-Ichack winning team 
+
+Ichack winning team
+
+# Frontend
+
+cd frontend
+npm install
+npm run dev
+
+HeroUI Docs: https://www.heroui.com/docs/guide/introduction
