@@ -9,6 +9,11 @@ app = Flask(__name__)
 # Replace this with a secure, random value for production
 app.secret_key = "super-secret-key"
 
+# Ensure the uploads folder exists
+UPLOAD_FOLDER = "./uploads"
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
 state = {"count": 0, "person_pic_filename": "", "main_pic_filename": ""}
 
 CORS(app)
@@ -29,19 +34,20 @@ def counter():
 
 @app.route("/get_state")
 def get_state():
-
     new_state = {s: state[s] for s in state}
 
     if new_state["person_pic_filename"]:
         new_state["person_pic_bytes"] = base64.b64encode(
             open(
-                os.path.join("./uploads", new_state["person_pic_filename"]), "rb"
+                os.path.join(UPLOAD_FOLDER, new_state["person_pic_filename"]), "rb"
             ).read()
         ).decode("utf-8")
 
     if new_state["main_pic_filename"]:
         new_state["main_pic_bytes"] = base64.b64encode(
-            open(os.path.join("./uploads", new_state["main_pic_filename"]), "rb").read()
+            open(
+                os.path.join(UPLOAD_FOLDER, new_state["main_pic_filename"]), "rb"
+            ).read()
         ).decode("utf-8")
 
     return new_state
@@ -50,7 +56,7 @@ def get_state():
 @app.route("/result")
 def get_result_image():
     return send_file(
-        os.path.join("./uploads", "result_image.jpg"), mimetype="image/jpeg"
+        os.path.join(UPLOAD_FOLDER, "result_image.jpg"), mimetype="image/jpeg"
     )
 
 
@@ -67,8 +73,8 @@ def modify_image():
     # TODO blur/modify the image
     # for testing, save the main_image to the result_image
     shutil.copy(
-        os.path.join("./uploads", state["main_pic_filename"]),
-        os.path.join("./uploads", "result_image.jpg"),
+        os.path.join(UPLOAD_FOLDER, state["main_pic_filename"]),
+        os.path.join(UPLOAD_FOLDER, "result_image.jpg"),
     )
 
     return "State modified", 200
@@ -76,11 +82,11 @@ def modify_image():
 
 @app.route("/upload", methods=["POST"])
 def upload():
-
-    if not "main_pic" in request.files and not "person_pic" in request.files:
+    if "main_pic" not in request.files and "person_pic" not in request.files:
         print("No file part")
         return "No file part", 400
 
+    # Determine which file type is being uploaded
     if "main_pic" in request.files:
         file = request.files["main_pic"]
     else:
@@ -94,7 +100,7 @@ def upload():
 
     # Sanitize the file name and construct the full path
     filename = secure_filename(file.filename)
-    filepath = os.path.join("./uploads", filename)
+    filepath = os.path.join(UPLOAD_FOLDER, filename)
 
     if is_person_pic:
         state["person_pic_filename"] = filename
@@ -103,7 +109,6 @@ def upload():
 
     # Save the file locally
     file.save(filepath)
-
     print("Uploaded file:", filename)
 
     return {"filename": filename}
