@@ -1,0 +1,10 @@
+flask
+flask_cors
+dlib
+face_recognition
+numpy==1.26.4
+matplotlib
+ultralytics
+torch
+torchvision
+opencv-python 
