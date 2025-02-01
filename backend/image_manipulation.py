@@ -24,7 +24,7 @@ def apply_gaussian_blur(
 
     Args:
         image (np.ndarray): The input image as a NumPy array.
-        rect (Tuple[int, int, int, int]): A tuple (x1, y1, x2, y2) representing
+        rect (Tuple[int, int, int, int]): A tuple (y1, x2, y2, x1) representing
             the top-left (x1, y1) and bottom-right (x2, y2) coordinates of the rectangle.
         kernel_size (Tuple[int, int], optional): The size of the Gaussian kernel.
             Must be positive and odd. Defaults to (15, 15).
@@ -37,7 +37,8 @@ def apply_gaussian_blur(
     Raises:
         ValueError: If the rectangle coordinates are invalid or out of image bounds.
     """
-    x1, y1, x2, y2 = rect
+
+    y1, x2, y2, x1 = rect
     height, width = image.shape[:2]
 
     # Check that the rectangle is within the image bounds and the coordinates make sense.
