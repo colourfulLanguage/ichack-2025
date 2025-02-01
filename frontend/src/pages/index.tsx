@@ -33,7 +33,7 @@ export default function IndexPage() {
       });
       const data = await response.json();
       console.log(data);
-      
+
       if (response.ok) {
         // Update the state with the uploaded file's filename
         setUploadedFilename(data.filename);
@@ -60,7 +60,7 @@ export default function IndexPage() {
       });
       const data = await response.json();
       console.log(data);
-      
+
       if (response.ok) {
         // Update the state with the uploaded person-picture filename
         setUploadedFilenameToRemove(data.filename);
@@ -69,6 +69,22 @@ export default function IndexPage() {
       }
     } catch (error) {
       alert("An error occurred while uploading the person picture.");
+    }
+  };
+
+  // New function to call the /human_detection endpoint before navigating
+  const handleHumanDetection = async () => {
+    try {
+      const response = await fetch("http://localhost:5123/human_detection", {
+        method: "POST",
+      });
+      if (response.ok) {
+        navigate("/confirm");
+      } else {
+        alert("Human detection request failed!");
+      }
+    } catch (error) {
+      alert("An error occurred during human detection.");
     }
   };
 
@@ -102,7 +118,7 @@ export default function IndexPage() {
             Upload picture of person to remove
           </button>
           <button
-            onClick={() => navigate("/process")}
+            onClick={handleHumanDetection}
             className={buttonStyles({
               color: "primary",
               radius: "full",
