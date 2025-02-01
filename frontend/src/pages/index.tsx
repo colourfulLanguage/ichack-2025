@@ -72,6 +72,22 @@ export default function IndexPage() {
     }
   };
 
+  // New function to call the /human_detection endpoint before navigating
+  const handleHumanDetection = async () => {
+    try {
+      const response = await fetch("http://localhost:5123/human_detection", {
+        method: "POST",
+      });
+      if (response.ok) {
+        navigate("/confirm");
+      } else {
+        alert("Human detection request failed!");
+      }
+    } catch (error) {
+      alert("An error occurred during human detection.");
+    }
+  };
+
   return (
     <DefaultLayout>
       <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
@@ -102,7 +118,7 @@ export default function IndexPage() {
             Upload picture of person to remove
           </button>
           <button
-            onClick={() => navigate("/check")}
+            onClick={handleHumanDetection}
             className={buttonStyles({
               color: "primary",
               radius: "full",

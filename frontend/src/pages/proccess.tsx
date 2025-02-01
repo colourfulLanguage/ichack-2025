@@ -31,6 +31,7 @@ export default function ProcessPage() {
       });
   }, []);
 
+  
   // Generic function to call the /modify endpoint.
   async function handleModify(actionType: string) {
     try {

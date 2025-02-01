@@ -4,6 +4,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import base64
 import shutil
+import human_detection_utils
 
 app = Flask(__name__)
 # Replace this with a secure, random value for production
@@ -14,7 +15,12 @@ UPLOAD_FOLDER = "./uploads"
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
-state = {"count": 0, "person_pic_filename": "", "main_pic_filename": ""}
+state = {
+    "count": 0,
+    "person_pic_filename": "",
+    "main_pic_filename": "",
+    "modified_main_pic_filename": "",
+}
 
 CORS(app)
 
@@ -39,15 +45,18 @@ def get_state():
     if new_state["person_pic_filename"]:
         new_state["person_pic_bytes"] = base64.b64encode(
             open(
-                os.path.join(UPLOAD_FOLDER, new_state["person_pic_filename"]), "rb"
+                os.path.join("./uploads", new_state["person_pic_filename"]), "rb"
             ).read()
         ).decode("utf-8")
 
     if new_state["main_pic_filename"]:
         new_state["main_pic_bytes"] = base64.b64encode(
-            open(
-                os.path.join(UPLOAD_FOLDER, new_state["main_pic_filename"]), "rb"
-            ).read()
+            open(os.path.join("./uploads", new_state["main_pic_filename"]), "rb").read()
+        ).decode("utf-8")
+
+    if new_state["body_with_box_path"]:
+        new_state["body_with_box_bytes"] = base64.b64encode(
+            open(new_state["body_with_box_path"], "rb").read()
         ).decode("utf-8")
 
     return new_state
@@ -56,7 +65,7 @@ def get_state():
 @app.route("/result")
 def get_result_image():
     return send_file(
-        os.path.join(UPLOAD_FOLDER, "result_image.jpg"), mimetype="image/jpeg"
+        os.path.join("./uploads", "result_image.jpg"), mimetype="image/jpeg"
     )
 
 
@@ -73,8 +82,8 @@ def modify_image():
     # TODO blur/modify the image
     # for testing, save the main_image to the result_image
     shutil.copy(
-        os.path.join(UPLOAD_FOLDER, state["main_pic_filename"]),
-        os.path.join(UPLOAD_FOLDER, "result_image.jpg"),
+        os.path.join("./uploads", state["main_pic_filename"]),
+        os.path.join("./uploads", "result_image.jpg"),
     )
 
     return "State modified", 200
@@ -82,11 +91,11 @@ def modify_image():
 
 @app.route("/upload", methods=["POST"])
 def upload():
-    if "main_pic" not in request.files and "person_pic" not in request.files:
+
+    if not "main_pic" in request.files and not "person_pic" in request.files:
         print("No file part")
         return "No file part", 400
 
-    # Determine which file type is being uploaded
     if "main_pic" in request.files:
         file = request.files["main_pic"]
     else:
@@ -100,7 +109,7 @@ def upload():
 
     # Sanitize the file name and construct the full path
     filename = secure_filename(file.filename)
-    filepath = os.path.join(UPLOAD_FOLDER, filename)
+    filepath = os.path.join("./uploads", filename)
 
     if is_person_pic:
         state["person_pic_filename"] = filename
@@ -109,9 +118,29 @@ def upload():
 
     # Save the file locally
     file.save(filepath)
+
     print("Uploaded file:", filename)
 
     return {"filename": filename}
+
+
+@app.route("/human_detection", methods=["POST"])
+def human_detection():
+
+    faces_rect_list = human_detection_utils.detect_faces(
+        os.path.join("./uploads", state["main_pic_filename"])
+    )
+
+    human_detection_utils.detect_bodies(
+        human_detection_utils.face_with_box_path, faces_rect_list
+    )
+
+    # read the human_detection_utils.body_with_box_path and add it into the state
+
+    body_with_box_path = human_detection_utils.body_with_box_path
+    state["body_with_box_path"] = body_with_box_path
+
+    return "", 200
 
 
 if __name__ == "__main__":
