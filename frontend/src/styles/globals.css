@@ -9,3 +9,43 @@ body {
     background: linear-gradient(to right, #fec5b7, #FFFBC9);
     min-height: 100vh;
   }  
+
+.image-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-text {
+  margin-top: 0.5rem;
+  font-size: 1.125rem;
+  color: #4b5563;
+  text-align: center;
+}
+
+.circular-button {
+  --button-size: 16rem;
+  width: var(--button-size);
+  height: var(--button-size);
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f4f6;
+  border: 4px solid #d1d5db;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.2s ease-in-out;
+}
+
+.circular-button img {
+  width: 130%;
+  height: 150%;
+  object-fit: cover;
+  transform: translateY(15px);
+}
+
+.circular-button:hover {
+  opacity: 0.9;
+}
