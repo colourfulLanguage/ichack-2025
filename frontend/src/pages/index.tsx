@@ -33,7 +33,7 @@ export default function IndexPage() {
       });
       const data = await response.json();
       console.log(data);
-      
+
       if (response.ok) {
         // Update the state with the uploaded file's filename
         setUploadedFilename(data.filename);
@@ -60,7 +60,7 @@ export default function IndexPage() {
       });
       const data = await response.json();
       console.log(data);
-      
+
       if (response.ok) {
         // Update the state with the uploaded person-picture filename
         setUploadedFilenameToRemove(data.filename);
@@ -102,7 +102,7 @@ export default function IndexPage() {
             Upload picture of person to remove
           </button>
           <button
-            onClick={() => navigate("/process")}
+            onClick={() => navigate("/check")}
             className={buttonStyles({
               color: "primary",
               radius: "full",
