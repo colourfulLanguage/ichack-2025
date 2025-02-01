@@ -2,6 +2,7 @@ from diffusers import StableDiffusionImg2ImgPipeline
 import torch
 from PIL import Image
 import numpy as np
+import cv2
 import requests
 from transformers import pipeline
 from accelerate.test_utils.testing import get_backend
