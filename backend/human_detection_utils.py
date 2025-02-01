@@ -4,6 +4,7 @@ import face_recognition
 
 face_with_box_path = "output_face_with_boxes.jpg"
 body_with_box_path = "output_body_with_boxes.jpg"
+draw_boxes_output_path = "draw_boxes_output.jpg"
 
 
 def detect_faces(image_name):
@@ -158,6 +159,7 @@ def test():
 
     faces_rect_list = detect_faces(test_photo)
     list_boxes = detect_bodies(test_photo, faces_rect_list)
+
     cropped_images_dict = extract_boxes(test_photo, list_boxes)
     print(cropped_images_dict)
     face_comparison_dict = find_same_faces(cropped_images_dict, opt_out_face)
@@ -166,6 +168,16 @@ def test():
         print("Box ", key, " similarity score: ", value)
         print("Picture at ", cropped_images_dict[key])
         print()
+
+
+def draw_box(image_name, box_coord):
+    image = cv2.imread(image_name)
+
+    top, right, bottom, left = box_coord
+    cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 2)
+
+    cv2.imwrite(draw_boxes_output_path, image)
+    return draw_boxes_output_path
 
 
 if __name__ == "__main__":

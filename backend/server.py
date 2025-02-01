@@ -20,10 +20,14 @@ state = {
     "person_pic_filename": "",
     "main_pic_filename": "",
     "modified_main_pic_filename": "",
+    "specific_cut_person": "",
+    "similarity_score": 0,
+    "cropped_images_dict": {},
+    "face_comparison_dict": {},
+    "score_key_order": [],
 }
 
 CORS(app)
-
 
 @app.route("/")
 def index():
@@ -58,6 +62,11 @@ def get_state():
         new_state["body_with_box_bytes"] = base64.b64encode(
             open(new_state["body_with_box_path"], "rb").read()
         ).decode("utf-8")
+
+    del new_state["specific_cut_person"]
+    del new_state["face_comparison_dict"]
+    del new_state["cropped_images_dict"]
+    del new_state["score_key_order"]
 
     return new_state
 
@@ -131,7 +140,7 @@ def human_detection():
         os.path.join("./uploads", state["main_pic_filename"])
     )
 
-    human_detection_utils.detect_bodies(
+    list_boxes = human_detection_utils.detect_bodies(
         human_detection_utils.face_with_box_path, faces_rect_list
     )
 
@@ -139,6 +148,25 @@ def human_detection():
 
     body_with_box_path = human_detection_utils.body_with_box_path
     state["body_with_box_path"] = body_with_box_path
+
+    state["cropped_images_dict"] = human_detection_utils.extract_boxes(os.path.join("./uploads", state["main_pic_filename"]), list_boxes)
+    state["face_comparison_dict"] = human_detection_utils.find_same_faces(state["cropped_images_dict"], 
+                                           os.path.join("./uploads", state["person_pic_filename"])
+                                           )
+    state["score_key_order"] = sorted(state["face_comparison_dict"], key=state["face_comparison_dict"].get, reverse=False)
+    return "", 200
+
+@app.route("/confirm_human", methods=["POST"])
+def confirm_human():
+    # show the next highest score and the image
+    print("HERE!!")
+    next_key = state["score_key_order"].pop(-1)
+
+    output_img = human_detection_utils.draw_box(os.path.join("./uploads", state["main_pic_filename"]), next_key)
+
+    state["body_with_box_path"] = output_img
+    state["similarity_score"] = state["face_comparison_dict"][next_key]
+    state["specific_cut_person"] = state["cropped_images_dict"][next_key]
 
     return "", 200
 
