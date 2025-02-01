@@ -21,10 +21,13 @@ state = {
     "main_pic_filename": "",
     "modified_main_pic_filename": "",
     "specific_cut_person": "",
+    "body_with_box_path": "",
     "similarity_score": 0,
     "cropped_images_dict": {},
     "face_comparison_dict": {},
     "score_key_order": [],
+    "specific_cut_key": (),
+    "any_more_faces": 1,
 }
 
 CORS(app)
@@ -44,6 +47,7 @@ def counter():
 
 @app.route("/get_state")
 def get_state():
+    print("CALLING GET STATE")
     new_state = {s: state[s] for s in state}
 
     if new_state["person_pic_filename"]:
@@ -67,6 +71,7 @@ def get_state():
     del new_state["face_comparison_dict"]
     del new_state["cropped_images_dict"]
     del new_state["score_key_order"]
+    del new_state["specific_cut_key"]
 
     return new_state
 
@@ -154,12 +159,18 @@ def human_detection():
                                            os.path.join("./uploads", state["person_pic_filename"])
                                            )
     state["score_key_order"] = sorted(state["face_comparison_dict"], key=state["face_comparison_dict"].get, reverse=False)
+    state["any_more_faces"] = 1
     return "", 200
 
 @app.route("/confirm_human", methods=["POST"])
 def confirm_human():
     # show the next highest score and the image
     print("HERE!!")
+    if len(state["score_key_order"]) == 0:
+        print("No more faces")
+        state["any_more_faces"] = 0
+        return "", 200
+    
     next_key = state["score_key_order"].pop(-1)
 
     output_img = human_detection_utils.draw_box(os.path.join("./uploads", state["main_pic_filename"]), next_key)
@@ -167,7 +178,14 @@ def confirm_human():
     state["body_with_box_path"] = output_img
     state["similarity_score"] = state["face_comparison_dict"][next_key]
     state["specific_cut_person"] = state["cropped_images_dict"][next_key]
+    state["specific_cut_key"] = next_key
 
+    return "", 200
+
+@app.route("/found_person", methods=["POST"])
+def found_person():
+    # show the next highest score and the image
+    print("FOUND PERSON!!")
     return "", 200
 
 
