@@ -27,7 +27,7 @@ export default function IndexPage() {
     formData.append("main_pic", file); // key for regular image upload
 
     try {
-      const response = await fetch("http://localhost:5000/upload", {
+      const response = await fetch("http://localhost:5123/upload", {
         method: "POST",
         body: formData,
       });
@@ -54,7 +54,7 @@ export default function IndexPage() {
     formData.append("person_pic", file);
 
     try {
-      const response = await fetch("http://localhost:5000/upload", {
+      const response = await fetch("http://localhost:5123/upload", {
         method: "POST",
         body: formData,
       });

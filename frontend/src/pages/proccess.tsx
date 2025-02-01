@@ -15,7 +15,7 @@ export default function ProcessPage() {
 
   useEffect(() => {
     // Call the local API endpoint to retrieve state.
-    fetch("http://localhost:5000/get_state")
+    fetch("http://localhost:5123/get_state")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch state");
@@ -34,7 +34,7 @@ export default function ProcessPage() {
   // Generic function to call the /modify endpoint.
   async function handleModify(actionType: string) {
     try {
-      const response = await fetch("http://localhost:5000/modify", {
+      const response = await fetch("http://localhost:5123/modify", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
