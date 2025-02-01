@@ -9,7 +9,7 @@ export default function ResultsPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5000/result")
+    fetch("http://localhost:5123/result")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch result image");
