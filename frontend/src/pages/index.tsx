@@ -3,8 +3,6 @@ import { button as buttonStyles } from "@heroui/theme";
 import { title } from "@/components/primitives";
 import DefaultLayout from "@/layouts/default";
 import { useNavigate } from "react-router-dom";
-import groupPic from "@/components/images/group_pic.png";
-import indPic from "@/components/images/ind_pic.png"
 
 export default function IndexPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -92,34 +90,43 @@ export default function IndexPage() {
 
   return (
     <DefaultLayout>
-      <section className="image-button gap-20 py-8 md:py-10">
+      <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
         <div className="inline-block max-w-lg text-center justify-center">
-          <span className={`${title()} text-3xl`}>Bluree</span>
+          <span className={title()}>Bluree</span>
+          <br />
+          <span className={title()}>Blurring faces in images</span>
         </div>
         <div className="flex gap-3">
-          <div className="flex flex-col items-center gap-20">
-            <div className="flex justify-center gap-40">
-              <div className="image-button">
-                <button onClick={handleUploadClick} className="circular-button" style={{ "--button-size": "16rem", "--translate-y": "15px", "--width": "130%", "--height": "150%" } as React.CSSProperties}>
-                  <img src={groupPic} alt="Upload Image" />
-                </button>
-                <p className="image-text">Upload Image</p>
-              </div>
-
-              <div className="image-button">
-                <button onClick={handleUploadPictureOfPersonClick} className="circular-button" style={{ "--button-size": "12rem", "--translate-x": "-2px", "--width": "300%", "--height": "220%" } as React.CSSProperties}>
-                  <img src={indPic} alt="Upload Ind Image" className="w-60 h-70 object-contain cursor-pointer hover:opacity-80" />
-                </button>
-                <p className="image-text">Upload person to remove</p>
-              </div>
-            </div>
-
-            <button
-              onClick={() => navigate("/process")}
-              className="custom-button">
-              Go to Processing Page
-            </button>
-          </div>
+          <button
+            onClick={handleUploadClick}
+            className={buttonStyles({
+              color: "primary",
+              radius: "full",
+              variant: "shadow",
+            })}
+          >
+            Upload Image
+          </button>
+          <button
+            onClick={handleUploadPictureOfPersonClick}
+            className={buttonStyles({
+              color: "primary",
+              radius: "full",
+              variant: "shadow",
+            })}
+          >
+            Upload picture of person to remove
+          </button>
+          <button
+            onClick={handleHumanDetection}
+            className={buttonStyles({
+              color: "primary",
+              radius: "full",
+              variant: "shadow",
+            })}
+          >
+            Go to Processing Page
+          </button>
           <input
             type="file"
             accept="image/*"

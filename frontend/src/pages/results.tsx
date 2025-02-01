@@ -40,7 +40,7 @@ export default function ResultsPage() {
         )}
         <button
           onClick={() => navigate("/process")}
-          className="custom-button"
+          className="mt-4 px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
         >
           Back to Process
         </button>

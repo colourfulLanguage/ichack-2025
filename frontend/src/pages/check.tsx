@@ -96,13 +96,13 @@ export default function CheckPage() {
 
         <div className="flex flex-row gap-4 mt-8">
           <button
-            className="custom-button"
+            className="px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
             onClick={() => handleCheck("yes")}
           >
             Found the person
           </button>
           <button
-            className="custom-button"
+            className="px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
             onClick={() => handleCheck("no")}
           >
             Not same

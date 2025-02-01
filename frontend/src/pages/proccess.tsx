@@ -95,13 +95,13 @@ export default function ProcessPage() {
 
         <div className="flex flex-row gap-4 mt-8">
           <button
-            className="custom-button"
+            className="px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
             onClick={() => handleModify("blur")}
           >
             Blur
           </button>
           <button
-            className="custom-button"
+            className="px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
             onClick={() => handleModify("replace")}
           >
             Replace
