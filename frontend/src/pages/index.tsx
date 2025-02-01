@@ -3,6 +3,8 @@ import { button as buttonStyles } from "@heroui/theme";
 import { title } from "@/components/primitives";
 import DefaultLayout from "@/layouts/default";
 import { useNavigate } from "react-router-dom";
+import groupPic from "@/components/images/group_pic.png";
+import indPic from "@/components/images/ind_pic.png"
 
 export default function IndexPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -76,41 +78,36 @@ export default function IndexPage() {
     <DefaultLayout>
       <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
         <div className="inline-block max-w-lg text-center justify-center">
-          <span className={title()}>Bluree</span>
-          <br />
-          <span className={title()}>Blurring faces in images</span>
+          <span className={`${title()} font-serif text-3xl`}>Upload images</span>
         </div>
         <div className="flex gap-3">
-          <button
-            onClick={handleUploadClick}
-            className={buttonStyles({
-              color: "primary",
-              radius: "full",
-              variant: "shadow",
-            })}
-          >
-            Upload Image
-          </button>
-          <button
-            onClick={handleUploadPictureOfPersonClick}
-            className={buttonStyles({
-              color: "primary",
-              radius: "full",
-              variant: "shadow",
-            })}
-          >
-            Upload picture of person to remove
-          </button>
-          <button
-            onClick={() => navigate("/process")}
-            className={buttonStyles({
-              color: "primary",
-              radius: "full",
-              variant: "shadow",
-            })}
-          >
-            Go to Processing Page
-          </button>
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex gap-3">
+              <div className="flex flex-col items-center">
+                <button onClick={handleUploadClick}>
+                  <img src={groupPic} alt="Upload Image" className="w-80 h-90 cursor-pointer hover:opacity-80" />
+                </button>
+                <p className="mt-2 text-lg text-gray-700">Upload Image</p>
+              </div>
+                
+              <div className="flex flex-col items-center">
+                <button onClick={handleUploadPictureOfPersonClick}>
+                  <img src={indPic} alt="Upload Ind Image" className="w-60 h-70 cursor-pointer hover:opacity-80" />
+                </button>
+                <p className="mt-2 text-lg text-gray-700">Upload person to remove</p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => navigate("/process")}
+              className={`${buttonStyles({
+                radius: "full",
+                variant: "shadow",
+              })} bg-[#ff9999] text-white hover:bg-[#b2222b]`}
+            >
+              Go to Processing Page
+            </button>
+          </div>
           <input
             type="file"
             accept="image/*"
