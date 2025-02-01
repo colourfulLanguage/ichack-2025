@@ -92,13 +92,13 @@ export default function IndexPage() {
 
   return (
     <DefaultLayout>
-      <section className="image-button gap-4 py-8 md:py-10">
+      <section className="image-button gap-20 py-8 md:py-10">
         <div className="inline-block max-w-lg text-center justify-center">
           <span className={`${title()} text-3xl`}>Bluree</span>
         </div>
         <div className="flex gap-3">
-          <div className="flex flex-col items-center gap-10">
-            <div className="flex justify-center gap-20">
+          <div className="flex flex-col items-center gap-20">
+            <div className="flex justify-center gap-40">
               <div className="image-button">
                 <button onClick={handleUploadClick} className="circular-button" style={{ "--button-size": "16rem", "--translate-y": "15px", "--width": "130%", "--height": "150%" } as React.CSSProperties}>
                   <img src={groupPic} alt="Upload Image" />

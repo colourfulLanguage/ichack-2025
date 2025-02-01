@@ -14,7 +14,6 @@ export default function DefaultLayout({
         {children}
       </main>
       <footer className="w-full flex items-center justify-center py-3">
-        Footers
       </footer>
     </div>
   );
