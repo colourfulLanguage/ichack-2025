@@ -1,2 +1,10 @@
 flask
 flask_cors
+dlib
+face_recognition
+numpy==1.23.5
+matplotlib
+ultralytics
+torch
+torchvision
+opencv-python 
