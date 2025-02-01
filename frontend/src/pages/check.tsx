@@ -8,7 +8,7 @@ interface StateData {
   person_pic_bytes?: string;
 }
 
-export default function ProcessPage() {
+export default function CheckPage() {
   const [stateData, setStateData] = useState<StateData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -31,9 +31,8 @@ export default function ProcessPage() {
       });
   }, []);
 
-  
-  // Generic function to call the /modify endpoint.
-  async function handleModify(actionType: string) {
+  // Generic function to call the /check/processing endpoint.
+  async function handleCheck(actionType: string) {
     try {
       const response = await fetch("http://localhost:5123/modify", {
         method: "POST",
@@ -58,7 +57,7 @@ export default function ProcessPage() {
       <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
         <div className="inline-block max-w-lg text-center">
           <h1 className={title()}>
-            Display Uploaded Images
+            Match the person in the image with the main image
           </h1>
         </div>
         {error && <p className="text-red-500">{error}</p>}
@@ -96,18 +95,19 @@ export default function ProcessPage() {
         <div className="flex flex-row gap-4 mt-8">
           <button
             className="px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
-            onClick={() => handleModify("blur")}
+            onClick={() => handleCheck("yes")}
           >
-            Blur
+            Found the person
           </button>
           <button
             className="px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
-            onClick={() => handleModify("replace")}
+            onClick={() => handleCheck("no")}
           >
-            Replace
+            Not same
           </button>
         </div>
       </section>
     </DefaultLayout>
   );
 }
+
