@@ -83,7 +83,7 @@ export default function ConfirmPage() {
 
         <div className="flex flex-row gap-4 mt-8">
           <button
-            className="px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
+            className="custom-button"
             onClick={() => handleConfirm()}
           >
             Confirm

@@ -97,31 +97,26 @@ export default function IndexPage() {
           <span className={`${title()} font-serif text-3xl`}>Bluree</span>
         </div>
         <div className="flex gap-3">
-          <div className="flex flex-col items-center gap-4">
-          <div className="flex justify-center gap-6">
-            <div className="image-button">
-              <button onClick={handleUploadClick} className="circular-button" style={{ "--button-size": "16rem", "--translate-y": "15px", "--width": "130%", "--height": "150%" } as React.CSSProperties}>
-                <img src={groupPic} alt="Upload Image" />
-              </button>
-              <br></br>
-              <p className="image-text">Upload Image</p>
-            </div>
+          <div className="flex flex-col items-center gap-10">
+            <div className="flex justify-center gap-20">
+              <div className="image-button">
+                <button onClick={handleUploadClick} className="circular-button" style={{ "--button-size": "16rem", "--translate-y": "15px", "--width": "130%", "--height": "150%" } as React.CSSProperties}>
+                  <img src={groupPic} alt="Upload Image" />
+                </button>
+                <p className="image-text">Upload Image</p>
+              </div>
 
-            <div className="image-button">
-              <button onClick={handleUploadPictureOfPersonClick} className="circular-button" style={{ "--button-size": "12rem", "--translate-x": "-2px", "--width": "300%", "--height": "220%" } as React.CSSProperties}>
-                <img src={indPic} alt="Upload Ind Image" className="w-60 h-70 object-contain cursor-pointer hover:opacity-80" />
-              </button>
-              <p className="image-text">Upload person to remove</p>
+              <div className="image-button">
+                <button onClick={handleUploadPictureOfPersonClick} className="circular-button" style={{ "--button-size": "12rem", "--translate-x": "-2px", "--width": "300%", "--height": "220%" } as React.CSSProperties}>
+                  <img src={indPic} alt="Upload Ind Image" className="w-60 h-70 object-contain cursor-pointer hover:opacity-80" />
+                </button>
+                <p className="image-text">Upload person to remove</p>
+              </div>
             </div>
-          </div>
 
             <button
               onClick={() => navigate("/process")}
-              className={`${buttonStyles({
-                radius: "full",
-                variant: "shadow",
-              })} bg-[#99ccff] text-white hover:bg-[#80B5E0]`}
-            >
+              className="custom-button">
               Go to Processing Page
             </button>
           </div>
