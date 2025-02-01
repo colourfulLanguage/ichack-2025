@@ -64,7 +64,9 @@ if __name__ == '__main__':
         raise FileNotFoundError(f"Could not load image from path: {im_path}")
 
     # Define the rectangle and kernel size.
-    rect = 70, 30, 130, 110
+    x1, y1 = 300, 150
+    x2, y2 = 400, 350
+    rect = y1, x2, y2, x1
     kernel_size = (11, 11)
     kernel_sigma = 4
 
