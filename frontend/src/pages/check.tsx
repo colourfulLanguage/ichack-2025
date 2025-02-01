@@ -6,6 +6,7 @@ import DefaultLayout from "@/layouts/default";
 interface StateData {
   main_pic_bytes?: string;
   person_pic_bytes?: string;
+  body_with_box_bytes?: string;
 }
 
 export default function CheckPage() {
@@ -34,7 +35,7 @@ export default function CheckPage() {
   // Generic function to call the /check/processing endpoint.
   async function handleCheck(actionType: string) {
     try {
-      const response = await fetch("http://localhost:5123/modify", {
+      const response = await fetch("http://localhost:5123/check", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -43,9 +44,10 @@ export default function CheckPage() {
       });
       if (!response.ok) {
         throw new Error("Failed to blur/replace");
+      } if (response.ok) {
+        // Navigate to the "results" page after a successful call.
+        navigate("/results");
       }
-      // Navigate to the "results" page after a successful call.
-      navigate("/results");
     } catch (err) {
       console.error(err);
       setError("Error blurring/replacing");
@@ -63,11 +65,11 @@ export default function CheckPage() {
         {error && <p className="text-red-500">{error}</p>}
         {stateData ? (
           <div className="flex flex-col items-center gap-6">
-            {stateData.main_pic_bytes ? (
+            {stateData.body_with_box_bytes ? (
               <div className="flex flex-col items-center">
                 <p>Main Image</p>
                 <img
-                  src={`data:image/jpeg;base64,${stateData.main_pic_bytes}`}
+                  src={`data:image/jpeg;base64,${stateData.body_with_box_bytes}`}
                   alt="Main upload"
                   className="max-w-sm rounded shadow-md"
                 />
