@@ -94,7 +94,7 @@ export default function IndexPage() {
     <DefaultLayout>
       <section className="image-button gap-4 py-8 md:py-10">
         <div className="inline-block max-w-lg text-center justify-center">
-          <span className={`${title()} font-serif text-3xl`}>Bluree</span>
+          <span className={`${title()} text-3xl`}>Bluree</span>
         </div>
         <div className="flex gap-3">
           <div className="flex flex-col items-center gap-10">
