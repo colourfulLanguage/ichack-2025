@@ -35,7 +35,7 @@ export default function ConfirmPage() {
   // Generic function to call the /check endpoint.
   async function handleConfirm() {
     try {
-      const response = await fetch("http://localhost:5123/confirm", {
+      const response = await fetch("http://localhost:5123/confirm_human", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,9 +44,10 @@ export default function ConfirmPage() {
       });
       if (!response.ok) {
         throw new Error("Failed to confirm");
+      } else {
+        // Navigate to the "results" page after a successful call.
+        navigate("/check");
       }
-      // Navigate to the "results" page after a successful call.
-      navigate("/check");
     } catch (err) {
       console.error(err);
       setError("Error confirming");
