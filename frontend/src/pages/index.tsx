@@ -120,7 +120,7 @@ export default function IndexPage() {
               className={`${buttonStyles({
                 radius: "full",
                 variant: "shadow",
-              })} bg-[#0864e4] text-white hover:bg-[#b2222b]`}
+              })} bg-[#99ccff] text-white hover:bg-[#80B5E0]`}
             >
               Go to Processing Page
             </button>
