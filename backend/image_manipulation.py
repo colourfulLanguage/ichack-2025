@@ -43,7 +43,8 @@ def apply_gaussian_blur(
 
     # Check that the rectangle is within the image bounds and the coordinates make sense.
     if x1 < 0 or y1 < 0 or x2 > width or y2 > height or x1 >= x2 or y1 >= y2:
-        raise ValueError("Invalid rectangle coordinates: they must be within the image bounds and satisfy x1 < x2 and y1 < y2.")
+        raise ValueError(
+            "Invalid rectangle coordinates: they must be within the image bounds and satisfy x1 < x2 and y1 < y2.")
 
     result = image.copy()
 
@@ -55,10 +56,41 @@ def apply_gaussian_blur(
     return result
 
 
+def generate_transparent_mask(
+        image: np.ndarray,
+        rect: tuple[int, int, int, int]
+) -> np.ndarray:
+    """
+    Generates an RGBA mask for the input image where the specified rectangular region is transparent.
+
+    The mask is created with the same dimensions as the input image. Every pixel is white with full
+    opacity (RGBA: (255, 255, 255, 255)), except for the area defined by the rectangle, which is set
+    to be fully transparent (alpha = 0).
+
+    Args:
+        image (np.ndarray): The input image as a NumPy array.
+        rect (Tuple[int, int, int, int]): A tuple (x1, y1, x2, y2) representing the rectangle area.
+
+    Returns:
+        np.ndarray: An RGBA image (mask) as a NumPy array.
+    """
+    height, width = image.shape[:2]
+    # Create a white image with full opacity (4 channels: R, G, B, A)
+    mask = np.full((height, width, 4), (255, 255, 255, 255), dtype=np.uint8)
+
+    y1, x2, y2, x1 = rect
+    # Set the alpha channel of the rectangular area to 0 (transparent)
+    mask[y1:y2, x1:x2, 3] = 0
+
+    return mask
+
+
 if __name__ == '__main__':
 
     im_path = "test_portrait.jpg"
     output_im_path = f"blurred_{im_path}"
+    masked_output = f"masked_{output_im_path}"
+
     image = cv2.imread(im_path)
     if image is None:
         raise FileNotFoundError(f"Could not load image from path: {im_path}")
@@ -73,6 +105,7 @@ if __name__ == '__main__':
     # Apply the Gaussian blur to the specified rectangle.
     try:
         output_img = apply_gaussian_blur(image, rect, kernel_size, kernel_sigma)
+        masked_img = generate_transparent_mask(image, rect)
     except ValueError as e:
         print(f"Error: {e}")
         exit(1)
@@ -83,5 +116,9 @@ if __name__ == '__main__':
     else:
         print("Failed to save the processed image.")
 
+    if cv2.imwrite(masked_output, masked_img):
+        print(f"Processed image saved to {masked_output}")
+    else:
+        print("Failed to save the processed image.")
 
 # build_face(image).save("blurred_face")
