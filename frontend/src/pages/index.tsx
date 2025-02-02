@@ -108,18 +108,57 @@ export default function IndexPage() {
 
   const handleRasperry = async () => {
     try {
-      // const response = await fetch("http://localhost:5123/human_detection", {
-      //   method: "POST",
-      // });
-      // if (response.ok) {
-      // } else {
-      //   alert("Human detection request failed!");
-      // }
-      // System.log("Rasperry")
+      // Run the SCP command first
+      const response = await fetch("http://localhost:5123/run_scp", {
+        method: "POST",
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        alert(data.message);
+
+        await handleHumanDetection();
+      } else {
+        alert("Failed to fetch images.");
+      }
     } catch (error) {
-      // alert("An error occurred during human detection.");
+      alert("An error occurred while fetching images.");
     }
-  }
+  };
+
+  const handleGroupPhoto = async () => {
+    try {
+      const response = await fetch("http://localhost:5123/get_multi", {
+        method: "POST",
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        alert(data.message);
+      } else {
+        alert("Failed to execute script.");
+      }
+    } catch (error) {
+      alert("An error occurred while executing the script.");
+    }
+  };
+
+  const handleIndPhoto = async () => {
+    try {
+      const response = await fetch("http://localhost:5123/get_opt", {
+        method: "POST",
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        alert(data.message);
+      } else {
+        alert("Failed to execute script.");
+      }
+    } catch (error) {
+      alert("An error occurred while executing the script.");
+    }
+  };
 
   return (
     <DefaultLayout>
@@ -133,7 +172,27 @@ export default function IndexPage() {
             Opt-out people aware. <br />
             Take control.</h1>
           <p className="text-lg mt-5 text-center max-w-lg">Use Bluree</p>
-          <button onClick={handleRasperry} className="custom-button">Get Images From Device</button>
+          <Button
+            onClick={handleGroupPhoto}
+            isLoading={isLoading}
+            className="custom-button">
+            Take Group Photo
+          </Button>
+          <br></br>
+          <Button
+            onClick={handleIndPhoto}
+            isLoading={isLoading}
+            className="custom-button">
+            Take Opt-out Photo
+          </Button>
+          <br></br>
+          <Button
+            onClick={handleRasperry}
+            isLoading={isLoading}
+            className="custom-button">
+            Get Images From Device
+          </Button>
+          {/* <button onClick={handleRasperry} className="custom-button">Get Images From Device</button> */}
           <div className="mt-40"></div> {/* Added space */}
           <div className="mt-40 absolute bottom-10 animate-bounce text-sm">Scroll Down ↓</div>
         </section>

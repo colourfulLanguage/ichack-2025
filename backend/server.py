@@ -1,11 +1,12 @@
 import os
-from flask import Flask, session, request, send_file
+from flask import Flask, session, request, send_file, jsonify
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import base64
 import shutil
 import human_detection_utils
 import processing_utils
+import subprocess
 
 app = Flask(__name__)
 # Replace this with a secure, random value for production
@@ -32,6 +33,26 @@ state = {
 }
 
 CORS(app)
+
+@app.route("/run_scp", methods=["POST"])
+def run_scp():
+    script_path = "/Users/ielghdban/Desktop/run_scp.sh"
+    subprocess.run(["bash", script_path], check=True)
+
+    return jsonify({"message": "Images transferred successfully!"})
+
+@app.route("/get_multi", methods=["POST"])
+def get_multi_photo():
+    script_path = "/Users/ielghdban/Desktop/get_multi.sh" 
+    subprocess.run(["bash", script_path], capture_output=True, text=True)
+    return jsonify({"message": "Group photo taken!"})
+
+@app.route("/get_opt", methods=["POST"])
+def get_opt_photo():
+    script_path = "/Users/ielghdban/Desktop/get_opt.sh" 
+    subprocess.run(["bash", script_path], capture_output=True, text=True)
+    return jsonify({"message": "Opt-out photo taken!"})
+        
 
 @app.route("/")
 def index():
