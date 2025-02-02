@@ -59,7 +59,7 @@ export default function ProcessPage() {
       <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
         <div className="inline-block max-w-lg text-center">
           <h1 className={title()}>
-            Display Uploaded Images
+            How to Process the Image
           </h1>
         </div>
         {error && <p className="text-red-500">{error}</p>}
@@ -67,11 +67,10 @@ export default function ProcessPage() {
           <div className="flex flex-col items-center gap-6">
             {stateData.body_with_box_bytes ? (
               <div className="flex flex-col items-center">
-                <p>Main Image</p>
                 <img
                   src={`data:image/jpeg;base64,${stateData.body_with_box_bytes}`}
                   alt="Main upload"
-                  className="max-w-sm rounded shadow-md"
+                  className="max-w-xl rounded-xl shadow-2xl border-5 border-white-400 transform hover:scale-105 transition-transform duration-300 ease-in-out"
                 />
               </div>
             ) : (

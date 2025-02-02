@@ -155,7 +155,7 @@ export default function CheckPage() {
                     className="px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
                     onClick={() => navigate("/")}
                   >
-                    Go back to home
+                    Go Back
                   </button>
                 </div>
               ) : (
@@ -170,7 +170,7 @@ export default function CheckPage() {
                     className="px-4 py-2 text-white bg-red-500 rounded shadow hover:bg-red-600"
                     onClick={() => handleGetNext()}
                   >
-                    Not same
+                    Not Same
                   </button>
                 </div>
               )}
