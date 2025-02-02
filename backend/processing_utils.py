@@ -121,9 +121,6 @@ def apply_pixelation(image, face_box, padding=50, fade_size=40):
     image[top:bottom, left:right] = blended_face
 
     return image
-    # Save and return the image
-    cv2.imwrite("output_pixelation.jpg", image)
-    print("Saved: output_pixelation.jpg")
 
 
 def create_best_blur(image_name, face_box):
@@ -136,4 +133,49 @@ def create_best_blur(image_name, face_box):
     print("Saved:", output_blur_path)
 
 
-create_best_blur("uploads/multiple.JPG", (1093, 2221, 1360, 1954))
+def place_sticker(image_path, box_coords, corner_radius=20, output_path="output_sticker.jpg"):
+    """
+    Places a rectangular sticker onto an image with rounded ends.
+
+    :param image_path: Path to the original image
+    :param sticker_path: Path to the sticker image
+    :param box_coords: Tuple (top, right, bottom, left) defining the bounding box
+    :param corner_radius: Radius for the rounded ends
+    :param output_path: Path to save the output image
+    """
+
+    sticker_path = "./test/sticker.jpeg"
+    # Load images
+    image = cv2.imread(image_path)
+    sticker = cv2.imread(sticker_path, cv2.IMREAD_UNCHANGED)  # Load with transparency if available
+
+    # Extract box coordinates
+    top, right, bottom, left = box_coords
+    width, height = right - left, bottom - top
+
+    # Resize the sticker to exactly fit the bounding box
+    sticker_resized = cv2.resize(sticker, (width, height), interpolation=cv2.INTER_LINEAR)
+
+    # Create a mask with rounded corners
+    sticker_mask = np.full((height, width), 255, dtype=np.uint8)  # White mask
+    cv2.rectangle(sticker_mask, (corner_radius, 0), (width - corner_radius, height), 255, -1)
+    cv2.circle(sticker_mask, (corner_radius, height // 2), corner_radius, 255, -1)
+    cv2.circle(sticker_mask, (width - corner_radius, height // 2), corner_radius, 255, -1)
+
+    # Convert mask to 3 channels
+    sticker_mask = cv2.merge([sticker_mask, sticker_mask, sticker_mask])
+
+    # Apply the mask to the sticker
+    sticker_resized = cv2.bitwise_and(sticker_resized, sticker_mask)
+
+    # Overlay the sticker on the original image (direct paste, no blending)
+    image[top:bottom, left:right] = sticker_resized
+
+    # Save output
+    cv2.imwrite(output_path, image)
+    print("Saved:", output_path)
+    return output_path
+
+
+# create_best_blur("uploads/multiple.JPG", (1093, 2221, 1360, 1954))
+place_sticker("uploads/multiple.JPG", (1093, 2221, 1360, 1954))
