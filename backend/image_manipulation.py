@@ -11,8 +11,6 @@ from accelerate.test_utils.testing import get_backend
 device, _, _ = get_backend()
 # pipe = pipeline(task="image-to-image", model="caidas/swin2SR-lightweight-x2-64", device=device)
 
-    return image
-
 def apply_gaussian_blur(
     image: np.ndarray,
     rect: tuple[int, int, int, int],
