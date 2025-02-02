@@ -85,6 +85,84 @@ def generate_transparent_mask(
     return mask
 
 
+def crop_square_containing_rect(image, rect, allowed_sizes=(256, 512, 1024)):
+    """
+    Crop a square region from the image that fully contains the given rectangle.
+    The square's side length is chosen as the smallest allowed size that is
+    at least as large as the rectangle's width or height.
+
+    Parameters
+    ----------
+    image : numpy.ndarray
+        The input image.
+    rect : tuple
+        The rectangle coordinates in (top, right, bottom, left) order.
+    allowed_sizes : tuple of ints, optional
+        Allowed square sizes (in pixels). Default is (256, 512, 1024).
+
+    Returns
+    -------
+    cropped : numpy.ndarray
+        The cropped square region from the image.
+
+    Raises
+    ------
+    ValueError
+        If the rectangle is too large for any of the allowed sizes.
+    """
+    # Unpack rectangle coordinates.
+    top, right, bottom, left = rect
+
+    # Determine the required size (the max of width and height)
+    rect_width = right - left
+    rect_height = bottom - top
+    required_size = max(rect_width, rect_height)
+
+    # Choose the smallest allowed size that is >= required_size
+    allowed_sizes = sorted(allowed_sizes)
+    crop_size = None
+    for size in allowed_sizes:
+        if size >= required_size:
+            crop_size = size
+            break
+    if crop_size is None:
+        raise ValueError("The rectangle is too large for the allowed crop sizes.")
+
+    # Compute the center of the rectangle.
+    center_x = (left + right) / 2
+    center_y = (top + bottom) / 2
+
+    # Compute initial crop coordinates centered on the rectangle.
+    x_start = int(round(center_x - crop_size / 2))
+    y_start = int(round(center_y - crop_size / 2))
+    x_end = x_start + crop_size
+    y_end = y_start + crop_size
+
+    # Get image dimensions.
+    img_height, img_width = image.shape[:2]
+
+    # Adjust the crop if it would fall outside the image boundaries.
+    if x_start < 0:
+        x_start = 0
+        x_end = crop_size
+    if y_start < 0:
+        y_start = 0
+        y_end = crop_size
+    if x_end > img_width:
+        x_end = img_width
+        x_start = img_width - crop_size
+    if y_end > img_height:
+        y_end = img_height
+        y_start = img_height - crop_size
+
+    # (Optional) Final check to ensure the crop fully contains the rectangle.
+    if not (x_start <= left and right <= x_end and y_start <= top and bottom <= y_end):
+        raise ValueError("Unable to position the crop so that it fully contains the rectangle.")
+
+    # Return the cropped square.
+    return image[y_start:y_end, x_start:x_end]
+
+
 if __name__ == '__main__':
 
     im_path = "test_portrait.jpg"
@@ -111,12 +189,12 @@ if __name__ == '__main__':
         exit(1)
 
     # Save the resulting image.
-    if cv2.imwrite(output_im_path, output_img):
+    if cv2.imwrite(output_im_path, crop_square_containing_rect(output_img, rect)):
         print(f"Processed image saved to {output_im_path}")
     else:
         print("Failed to save the processed image.")
 
-    if cv2.imwrite(masked_output, masked_img):
+    if cv2.imwrite(masked_output, crop_square_containing_rect(masked_img, rect)):
         print(f"Processed image saved to {masked_output}")
     else:
         print("Failed to save the processed image.")
