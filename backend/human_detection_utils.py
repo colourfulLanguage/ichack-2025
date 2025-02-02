@@ -46,7 +46,7 @@ def contains_face(bounding_box, rectangles):
 
 def detect_bodies(image_name, faces_rect_list):
     # returns a list of tuples (top, right, bottom, left)
-    model = YOLO("yolov8n.pt")
+    model = YOLO("yolov8n.pt").cpu()
 
     # Load the image
     image_path = image_name
