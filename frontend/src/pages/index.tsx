@@ -106,6 +106,21 @@ export default function IndexPage() {
     }
   };
 
+  const handleRasperry = async () => {
+    try {
+      // const response = await fetch("http://localhost:5123/human_detection", {
+      //   method: "POST",
+      // });
+      // if (response.ok) {
+      // } else {
+      //   alert("Human detection request failed!");
+      // }
+      // System.log("Rasperry")
+    } catch (error) {
+      // alert("An error occurred during human detection.");
+    }
+  }
+
   return (
     <DefaultLayout>
       <section className="image-button gap-20 py-8 md:py-10">
@@ -118,6 +133,7 @@ export default function IndexPage() {
             Opt-out people aware. <br />
             Take control.</h1>
           <p className="text-lg mt-5 text-center max-w-lg">Use Bluree</p>
+          <button onClick={handleRasperry} className="custom-button">Get Images From Device</button>
           <div className="mt-40"></div> {/* Added space */}
           <div className="mt-40 absolute bottom-10 animate-bounce text-sm">Scroll Down ↓</div>
         </section>

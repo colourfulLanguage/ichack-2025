@@ -175,4 +175,4 @@ def place_sticker(image_path, box_coords, corner_radius=20, output_path="output_
 
 
 # create_best_blur("uploads/multiple.JPG", (1093, 2221, 1360, 1954))
-place_sticker("uploads/multiple.JPG", (1093, 2221, 1360, 1954))
+# place_sticker("uploads/multiple.JPG", (1093, 2221, 1360, 1954))
