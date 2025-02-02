@@ -74,11 +74,11 @@ def generate_transparent_mask(
     """
     height, width = image.shape[:2]
     # Create a white image with full opacity (4 channels: R, G, B, A)
-    mask = np.full((height, width, 4), (255, 255, 255, 255), dtype=np.uint8)
+    mask = np.full((height, width, 4), (0, 0, 0, 255), dtype=np.uint8)
 
     y1, x2, y2, x1 = rect
     # Set the alpha channel of the rectangular area to 0 (transparent)
-    mask[y1:y2, x1:x2, 3] = 0
+    mask[y1:y2, x1:x2, :] = (255, 255, 255, 255)
 
     return mask
 
@@ -172,8 +172,8 @@ if __name__ == '__main__':
         raise FileNotFoundError(f"Could not load image from path: {im_path}")
 
     # Define the rectangle and kernel size.
-    x1, y1 = 300, 150
-    x2, y2 = 450, 450
+    x1, y1 = 320, 150
+    x2, y2 = 400, 250
     rect = y1, x2, y2, x1
     kernel_size = (11, 11)
     kernel_sigma = 4
@@ -187,12 +187,12 @@ if __name__ == '__main__':
         exit(1)
 
     # Save the resulting image.
-    if cv2.imwrite(output_im_path, crop_square_containing_rect(output_img, rect)):
+    if cv2.imwrite(output_im_path, crop_square_containing_rect(output_img, rect, allowed_sizes=(512,))):
         print(f"Processed image saved to {output_im_path}")
     else:
         print("Failed to save the processed image.")
 
-    if cv2.imwrite(masked_output, crop_square_containing_rect(masked_img, rect)):
+    if cv2.imwrite(masked_output, crop_square_containing_rect(masked_img, rect, allowed_sizes=(512,))):
         print(f"Processed image saved to {masked_output}")
     else:
         print("Failed to save the processed image.")
