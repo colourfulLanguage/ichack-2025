@@ -6,6 +6,7 @@ import DefaultLayout from "@/layouts/default";
 interface StateData {
   main_pic_bytes?: string;
   person_pic_bytes?: string;
+  body_with_box_bytes?: string;
 }
 
 export default function ProcessPage() {
@@ -31,7 +32,7 @@ export default function ProcessPage() {
       });
   }, []);
 
-  
+
   // Generic function to call the /modify endpoint.
   async function handleModify(actionType: string) {
     try {
@@ -64,11 +65,11 @@ export default function ProcessPage() {
         {error && <p className="text-red-500">{error}</p>}
         {stateData ? (
           <div className="flex flex-col items-center gap-6">
-            {stateData.main_pic_bytes ? (
+            {stateData.body_with_box_bytes ? (
               <div className="flex flex-col items-center">
                 <p>Main Image</p>
                 <img
-                  src={`data:image/jpeg;base64,${stateData.main_pic_bytes}`}
+                  src={`data:image/jpeg;base64,${stateData.body_with_box_bytes}`}
                   alt="Main upload"
                   className="max-w-sm rounded shadow-md"
                 />
@@ -76,18 +77,7 @@ export default function ProcessPage() {
             ) : (
               <p>No main image uploaded</p>
             )}
-            {stateData.person_pic_bytes ? (
-              <div className="flex flex-col items-center">
-                <p>Person Image</p>
-                <img
-                  src={`data:image/jpeg;base64,${stateData.person_pic_bytes}`}
-                  alt="Person upload"
-                  className="max-w-sm rounded shadow-md"
-                />
-              </div>
-            ) : (
-              <p>No person image uploaded</p>
-            )}
+
           </div>
         ) : (
           <p>Loading state...</p>
@@ -95,13 +85,13 @@ export default function ProcessPage() {
 
         <div className="flex flex-row gap-4 mt-8">
           <button
-            className="px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
+            className="custom-button"
             onClick={() => handleModify("blur")}
           >
             Blur
           </button>
           <button
-            className="px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
+            className="custom-button"
             onClick={() => handleModify("replace")}
           >
             Replace
