@@ -154,7 +154,7 @@ def human_detection():
     body_with_box_path = human_detection_utils.body_with_box_path
     state["body_with_box_path"] = body_with_box_path
 
-    state["cropped_images_dict"] = human_detection_utils.extract_boxes(os.path.join("./uploads", state["main_pic_filename"]), list_boxes)
+    state["cropped_images_dict"] = human_detection_utils.extract_boxes(os.path.join("./uploads", state["main_pic_filename"]), faces_rect_list)
     state["face_comparison_dict"] = human_detection_utils.find_same_faces(state["cropped_images_dict"], 
                                            os.path.join("./uploads", state["person_pic_filename"])
                                            )
