@@ -87,23 +87,28 @@ def get_result_image():
 @app.route("/modify", methods=["POST"])
 def modify_image():
     action = request.json.get("action")
+    box_key = tuple(state["specific_cut_key"])
     if action == "blur":
         state["count"] += 1
-
-        next_key = tuple(state["specific_cut_key"])
-        state["modified_main_pic_filename"] = processing_utils.blur_image(
-            os.path.join("./uploads", state["main_pic_filename"]), next_key
+        state["modified_main_pic_filename"] = processing_utils.create_best_blur(
+            os.path.join("./uploads", state["main_pic_filename"]), box_key
             )
-        
         
     elif action == "sticker":
         state["count"] -= 1
+        state["modified_main_pic_filename"] = processing_utils.place_sticker(
+            os.path.join("./uploads", state["main_pic_filename"]), box_key
+            )
+
     else:
         return "Invalid action", 400
+    
+    print(state["modified_main_pic_filename"])
 
+    print(os.path.join(".", state["modified_main_pic_filename"]))
     # TODO blur/modify the image
     shutil.copy(
-        os.path.join(state["modified_main_pic_filename"]),
+        os.path.join(".", state["modified_main_pic_filename"]),
         os.path.join("./uploads", "result_image.jpg"),
     )
 

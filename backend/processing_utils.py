@@ -17,11 +17,7 @@ def blur_image(image, box_coord, padding=100, blur_strength=99, fade_size=80, ou
     :return: Path to the saved blurred image
     """
 
-    print("Blurring:", image_name)
-    print("Box Coordinates:", box_coord)
-
     # Load the image
-    image = cv2.imread(image_name)
     h_img, w_img = image.shape[:2]  
     blurred_image = image.copy()
 
@@ -131,6 +127,7 @@ def create_best_blur(image_name, face_box):
 
     cv2.imwrite(output_blur_path, blurred_image)
     print("Saved:", output_blur_path)
+    return output_blur_path
 
 
 def place_sticker(image_path, box_coords, corner_radius=20, output_path="output_sticker.jpg"):

@@ -34,7 +34,8 @@ export default function ResultsPage() {
         </div>
         {error && <p className="text-red-500">{error}</p>}
         {imgUrl ? (
-          <img src={imgUrl} alt="Result" className="max-w-md rounded shadow-md" />
+          <img src={imgUrl} alt="Result"
+            className="max-w-xl rounded-xl shadow-2xl border-5 border-white-400 transform hover:scale-105 transition-transform duration-300 ease-in-out" />
         ) : (
           <p>Loading result image...</p>
         )}
