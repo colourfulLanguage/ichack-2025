@@ -165,7 +165,7 @@ def crop_square_containing_rect(image, rect, allowed_sizes=(256, 512, 1024)):
 
 if __name__ == '__main__':
 
-    im_path = "test_portrait.jpg"
+    im_path = "tina_output.png"
     output_im_path = f"blurred_{im_path}"
     masked_output = f"masked_{output_im_path}"
 
@@ -175,7 +175,7 @@ if __name__ == '__main__':
 
     # Define the rectangle and kernel size.
     x1, y1 = 300, 150
-    x2, y2 = 400, 350
+    x2, y2 = 450, 450
     rect = y1, x2, y2, x1
     kernel_size = (11, 11)
     kernel_sigma = 4
