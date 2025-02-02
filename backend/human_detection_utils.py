@@ -19,7 +19,7 @@ def detect_faces(image_name):
 
     # Draw rectangles around faces
     for top, right, bottom, left in face_locations:
-        cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 2)
+        cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 10)
     # Show image
     # cv2.imshow("Detected Faces", image)
     # cv2.waitKey(0)
@@ -67,7 +67,7 @@ def detect_bodies(image_name, faces_rect_list):
 
                 if contains_face((y1, x2, y2, x1), faces_rect_list):
                     cv2.rectangle(
-                        image, (x1, y1), (x2, y2), (0, 255, 0), 2
+                        image, (x1, y1), (x2, y2), (0, 255, 0), 10
                     )  # Green box
                     list_boxes.append((y1, x2, y2, x1))  # (top, right, bottom, left)
 
@@ -174,7 +174,7 @@ def draw_box(image_name, box_coord):
     image = cv2.imread(image_name)
 
     top, right, bottom, left = box_coord
-    cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 2)
+    cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 10)
 
     cv2.imwrite(draw_boxes_output_path, image)
     return draw_boxes_output_path

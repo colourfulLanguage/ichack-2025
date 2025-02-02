@@ -80,8 +80,29 @@ html {
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
 }
 
-h1 {
+.title-class {
+  font-size: 2rem;
+  /* Adjust font size */
+}
 
-  color: #333;
+.grid-container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  /* The image takes the size of its content, and the text takes the remaining space */
+  align-items: center;
+  /* Vertically center content */
+}
 
+.main-image {
+  width: 300px;
+  /* Set image width */
+  height: auto;
+  margin-right: 30px;
+  /* Adjust distance from the text */
+}
+
+.title-class {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: left;
 }
