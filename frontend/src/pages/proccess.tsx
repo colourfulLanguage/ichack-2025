@@ -91,9 +91,9 @@ export default function ProcessPage() {
           </button>
           <button
             className="custom-button"
-            onClick={() => handleModify("replace")}
+            onClick={() => handleModify("sticker")}
           >
-            Replace
+            Put Sticker on it!
           </button>
         </div>
       </section>

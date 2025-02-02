@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 import base64
 import shutil
 import human_detection_utils
+import processing_utils
 
 app = Flask(__name__)
 # Replace this with a secure, random value for production
@@ -88,15 +89,21 @@ def modify_image():
     action = request.json.get("action")
     if action == "blur":
         state["count"] += 1
-    elif action == "replace":
+
+        next_key = tuple(state["specific_cut_key"])
+        state["modified_main_pic_filename"] = processing_utils.blur_image(
+            os.path.join("./uploads", state["main_pic_filename"]), next_key
+            )
+        
+        
+    elif action == "sticker":
         state["count"] -= 1
     else:
         return "Invalid action", 400
 
     # TODO blur/modify the image
-    # for testing, save the main_image to the result_image
     shutil.copy(
-        os.path.join("./uploads", state["main_pic_filename"]),
+        os.path.join(state["modified_main_pic_filename"]),
         os.path.join("./uploads", "result_image.jpg"),
     )
 
